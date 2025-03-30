@@ -1,11 +1,17 @@
 import React from 'react';
 
 import './App.css';
-import HotelManagement from './layout/HotelManagement';
-import LoginPage from './layout/LoginPage';
-import RegisterPage from './layout/RegisterPage';
+
 import HomePage from './layout/HomePage';
-import AdminDashboard from './layout/AdminDashboard';
+import DanhSachPhongTrongPage from './layout/DanhSachPhongTrongPage';
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import ChiTietPhongPage from './layout/ChiTietPhongPage';
+import DangKyPage from './layout/DangKyPage';
+import LoginPage from './layout/LoginPage';
+
+
 
 function App() {
   return (
@@ -14,7 +20,23 @@ function App() {
       {/* <RegisterPage /> */}
       {/* <LoginPage /> */}
       {/* <HomePage /> */}
-      < AdminDashboard />
+      {/* < AdminDashboard /> */}
+      {/* <DanhSachPhongTrongPage /> */}
+      {/* <DanhSachPhongTrong /> */}
+
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/dangKy" element={<DangKyPage />} />
+          <Route path="/dangNhap" element={<LoginPage />} />
+          <Route path="/danhSachPhongTrong" element={<DanhSachPhongTrongPage />} />
+          <Route path="/chiTietPhong/:idPhong" element={<ChiTietPhongPage />} />
+          <Route path="/chiTietPhong/:idPhong/:checkInDate/:checkOutDate" element={<ChiTietPhongPage />} />
+        </Routes>
+      </BrowserRouter>
+
+
     </div>
   );
 }

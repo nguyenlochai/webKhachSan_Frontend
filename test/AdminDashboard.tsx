@@ -59,10 +59,10 @@ const AdminDashboard = () => {
     const renderServicesContent = () => {
         // Dữ liệu mẫu
         const services = [
-            { id: 1, name: "Dịch vụ Spa", price: "500,000 VND", category: "Sức khỏe", status: "Hoạt động", description: "Massage và chăm sóc da" },
-            { id: 2, name: "Giặt ủi", price: "150,000 VND", category: "Tiện ích", status: "Hoạt động", description: "Giặt và ủi quần áo" },
-            { id: 3, name: "Đưa đón sân bay", price: "350,000 VND", category: "Di chuyển", status: "Hoạt động", description: "Xe đưa đón sân bay" },
-            { id: 4, name: "Tour tham quan", price: "1,200,000 VND", category: "Du lịch", status: "Tạm ngưng", description: "Tour tham quan thành phố" }
+            { id: 1, name: "Dịch vụ Spa", price: "500,000 VND", status: "Hoạt động", description: "Massage và chăm sóc da" },
+            { id: 2, name: "Giặt ủi", price: "150,000 VND", status: "Hoạt động", description: "Giặt và ủi quần áo" },
+            { id: 3, name: "Đưa đón sân bay", price: "350,000 VND", status: "Hoạt động", description: "Xe đưa đón sân bay" },
+            { id: 4, name: "Tour tham quan", price: "1,200,000 VND", status: "Tạm ngưng", description: "Tour tham quan thành phố" }
         ];
 
         return (
@@ -84,13 +84,7 @@ const AdminDashboard = () => {
                     <div className="card-header bg-white py-3">
                         <div className="row g-3">
                             <div className="col-md-3">
-                                <select className="form-select">
-                                    <option value="">Tất cả danh mục</option>
-                                    <option value="health">Sức khỏe</option>
-                                    <option value="utility">Tiện ích</option>
-                                    <option value="transportation">Di chuyển</option>
-                                    <option value="tourism">Du lịch</option>
-                                </select>
+
                             </div>
                             <div className="col-md-3">
                                 <select className="form-select">
@@ -117,7 +111,7 @@ const AdminDashboard = () => {
                                         <th>ID</th>
                                         <th>Tên dịch vụ</th>
                                         <th>Giá</th>
-                                        <th>Danh mục</th>
+
                                         <th>Trạng thái</th>
                                         <th>Mô tả</th>
                                         <th>Thao tác</th>
@@ -129,7 +123,7 @@ const AdminDashboard = () => {
                                             <td>#{service.id}</td>
                                             <td>{service.name}</td>
                                             <td>{service.price}</td>
-                                            <td>{service.category}</td>
+
                                             <td>
                                                 <span className={`badge ${service.status === 'Hoạt động' ? 'bg-success' : 'bg-secondary'}`}>
                                                     {service.status}

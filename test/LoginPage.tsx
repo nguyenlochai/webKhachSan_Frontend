@@ -1,60 +1,7 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-
-
 
 
 const LoginPage = () => {
-
-    // khai báo chuyển trang
-    const navigate = useNavigate();
-
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [error, setError] = useState("")
-
-    const handleLogin = (e: React.FormEvent) => {
-
-        e.preventDefault();
-
-        const loginRequest = {
-            username: username,
-            password: password
-        }
-
-        const url = "http://localhost:8080/tai-khoan/dang-nhap";
-        fetch(url, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginRequest)
-        }).then(
-            (response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error("Đăng nhập thất bại!")
-                }
-
-            }
-        ).then(
-            (data) => {
-                // data lưu vào jwt, sau đó đặt tên là token để lưu jwt vào token
-                // token sẽ lưu trên localStorage
-                const { jwt } = data;
-                localStorage.setItem('token', jwt);
-                // chuyển hướng đến trang chủ
-                navigate("/");
-                // Reload lại trang 
-                window.location.reload();
-
-            }
-        ).catch((error) => {
-            // xử lý lỗi đăng nhập
-            console.error("Đăng nhập thất bại: ", error);
-            setError('Đăng nhập thất bại. Vui lòng kiểm tra lại tên đăng nhập hoặc mật khẩu')
-
-        })
-    }
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -95,6 +42,7 @@ const LoginPage = () => {
                         <div className="position-absolute bottom-0 start-0 p-4 text-white">
                             <p className="mb-0">© 2025 Hotel LocHai</p>
                         </div>
+
                     </div>
                 </div>
 
@@ -107,8 +55,10 @@ const LoginPage = () => {
                                 <i className="bi bi-building fs-2 text-primary me-2"></i>
                                 <span className="h4 mb-0 d-none d-sm-inline">Hotel LocHai</span>
                             </div>
-                            <div className="">
-                                <Link to="/dangKy" className="btn btn-outline-primary" >Đăng ký</Link>
+                            <div className="d-lg-none">
+                                <button className="btn btn-link text-decoration-none">
+                                    <span className="text-primary">Cần trợ giúp?</span>
+                                </button>
                             </div>
                         </div>
 
@@ -127,7 +77,7 @@ const LoginPage = () => {
                                     Tên đăng nhập hoặc mật khẩu không đúng.
                                 </div>
 
-                                <form onSubmit={handleLogin}>
+                                <form>
                                     <div className="mb-4">
                                         <label htmlFor="username" className="form-label float-start">Tên đăng nhập</label>
                                         <div className="input-group">
@@ -137,8 +87,6 @@ const LoginPage = () => {
                                                 className="form-control border-start-0 bg-light"
                                                 id="username"
                                                 placeholder="Nhập tên đăng nhập"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
                                             />
                                         </div>
                                     </div>
@@ -154,8 +102,6 @@ const LoginPage = () => {
                                                 className="form-control border-start-0 bg-light"
                                                 id="password"
                                                 placeholder="Nhập mật khẩu"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
                                             />
                                             <button
                                                 className="btn btn-outline-secondary border-start-0 bg-light"
@@ -166,7 +112,6 @@ const LoginPage = () => {
                                             </button>
                                         </div>
                                     </div>
-                                    <p className="mt-5 mb-3" style={{ color: 'red' }}>{error}</p>
 
                                     <div className="form-check mb-4">
                                         <input className="form-check-input" type="checkbox" id="rememberMe" />
@@ -199,11 +144,8 @@ const LoginPage = () => {
 
                         {/* Footer */}
                         <div className="p-4 text-center border-top">
-
-
-
                             <p className="small text-muted mb-0">
-                                Không có tài khoản? <NavLink className="nav-link active btn  btn-outline-primary" style={{ marginRight: "13px", marginLeft: "13px" }} aria-current="page" to="/dangKy">Đăng ký</NavLink>
+                                Không có tài khoản? <a href="#" className="text-decoration-none">Đăng ký</a> hoặc <a href="#" className="text-decoration-none">Dùng thử miễn phí</a>
                             </p>
                         </div>
                     </div>
