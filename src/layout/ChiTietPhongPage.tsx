@@ -7,6 +7,8 @@ import Footer from "./header-footer/Footer";
 import Header from "./header-footer/Header";
 import { layAllAnhPhong } from "../api/AnhPhogAPI";
 import { datPhongThanhToan } from "../api/ThanhToan";
+import { MyJwtPayload } from "../models/MyJwtPayload";
+import { jwtDecode } from "jwt-decode";
 
 
 
@@ -116,9 +118,22 @@ const ChiTietPhongPage = () => {
 
     const handleDatPhong = async () => {
         try {
-            const result = await datPhongThanhToan(phong); // gọi backend
-            console.log(result); // Kiểm tra kỹ key
-            console.log("URL nhận về:", result.url); // In đúng key
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Vui lòng đăng nhập");
+                return;
+            }
+
+            const userData: MyJwtPayload = jwtDecode(token);
+            console.log("ID Tài khoản:", userData.idTaiKhoan);
+
+            if (!phong) {
+                alert("Không có thông tin phòng để đặt!");
+                return;
+            }
+
+            const result = await datPhongThanhToan(phong, userData.idTaiKhoan, checkInDate, checkOutDate);
+            console.log("Kết quả đặt phòng:", result);
 
             if (result && result.url) {
                 window.location.href = result.url;
@@ -130,6 +145,7 @@ const ChiTietPhongPage = () => {
             alert("Thanh toán không thành công!");
         }
     };
+
 
 
 

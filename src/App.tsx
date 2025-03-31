@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ChiTietPhongPage from './layout/ChiTietPhongPage';
 import DangKyPage from './layout/DangKyPage';
 import LoginPage from './layout/LoginPage';
+import PaymentResult from './layout/PaymentResult';
 
 
 
@@ -33,6 +34,8 @@ function App() {
           <Route path="/danhSachPhongTrong" element={<DanhSachPhongTrongPage />} />
           <Route path="/chiTietPhong/:idPhong" element={<ChiTietPhongPage />} />
           <Route path="/chiTietPhong/:idPhong/:checkInDate/:checkOutDate" element={<ChiTietPhongPage />} />
+          <Route path="/payment/result" element={<PaymentResult />} />
+
         </Routes>
       </BrowserRouter>
 

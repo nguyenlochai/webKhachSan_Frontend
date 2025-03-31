@@ -1,6 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { MyJwtPayload } from "../../models/MyJwtPayload";
 
 const Header = () => {
 
@@ -8,21 +9,13 @@ const Header = () => {
     const [anhUsername, setAnhUsername] = useState<string | null>(null);
 
 
-
-
-
-
-
-
-
-
-
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             //tải npm install jwt-decode về mới dùng jwtDecode để giải mã đc
-            const userData = jwtDecode(token);
+            const userData: MyJwtPayload = jwtDecode(token);
             console.log(userData);
+            console.log(userData.idTaiKhoan);
             // nếu giả mã thành công
             if (userData) {
                 // sub đại diện cho "subject" và thường chứa thông tin về người dùng mà token đại diện, như ID người dùng hoặc username.
@@ -32,10 +25,6 @@ const Header = () => {
         }
 
     }, []);
-
-
-
-
 
     return (
         <div>
