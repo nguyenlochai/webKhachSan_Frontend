@@ -10,6 +10,7 @@ import Banner from './banner/Banner';
 import DanhSachPhongGiaDinh from './danhSachPhong/DanhSachPhongGiaDinh';
 import { HinhAnhModel } from '../models/HinhAnh';
 import { lay1AnhPhong } from '../api/AnhPhogAPI';
+import { NavLink } from 'react-router-dom';
 
 const HomePage = () => {
   const [phongVip, setPhongVip] = useState<PhongModel[]>([]);
@@ -50,8 +51,10 @@ const HomePage = () => {
       <section className="position-relative">
         <Banner />
         <TimPhongTrong />
+
       </section>
 
+      <NavLink className="btn btn-outline-success btn-hover-outline mx-2" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="/phong"> Xem tất cả Phòng</NavLink>
       <DanhSachPhongVip danhSachPhongVip={phongVip} />
       <DanhSachPhongGiaDinh danhSachPhongGiaDinh={phongGiaDinh} />
       <LyDoChonKhachSan />

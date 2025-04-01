@@ -203,8 +203,10 @@ const ChiTietPhongPage = () => {
                             <div className="d-flex align-items-center mb-2">
                                 <i className="bi bi-door-closed-fill me-2 text-primary"></i>
                                 <span>Số phòng còn trống: {phong.soPhong}</span>
+
                             </div>
 
+                            <p className="card-text text-warning">5 ⭐⭐⭐⭐⭐</p>
                             <div className="d-flex align-items-center mb-3">
                                 <i className="bi bi-currency-exchange me-2 text-primary"></i>
                                 <span className="fs-4 fw-bold text-primary">{phong.giaPhong.toLocaleString()} VND</span>

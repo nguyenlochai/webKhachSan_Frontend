@@ -28,12 +28,28 @@ const Header = () => {
 
     return (
         <div>
+
+
+
+
             {/* Header */}
-            <header className="bg-white shadow-sm sticky-top">
+            <header className="bg-white shadow-sm sticky-top" style={{
+                background: "linear-gradient(to right, rgb(0 0 0) 0%, rgb(34 89 7) 50%, rgb(2 70 89) 100%)",
+                boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
+                height: "100px",
+                display: "flex",
+
+            }}>
                 <nav className="container navbar navbar-expand-lg navbar-light py-3">
                     <a className="navbar-brand d-flex align-items-center" href="#">
                         <i className="bi bi-building fs-2 text-primary me-2"></i>
-                        <span className="h4 mb-0">Hotel LocHai</span>
+                        <span className="h4 mb-0" style={{
+                            fontFamily: "'Montserrat', sans-serif",
+                            fontWeight: "bold",
+                            background: "linear-gradient(90deg, #FF5722, #9C27B0, #3F51B5, #4CAF50, #FFEB3B)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent"
+                        }}>Hotel LocHai</span>
                     </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                         <span className="navbar-toggler-icon"></span>
@@ -41,19 +57,19 @@ const Header = () => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
-                                <a className="nav-link active" href="#">Trang chủ</a>
+                                <a className="nav-link active" style={{ color: "white" }} href="#">Trang chủ</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Phòng</a>
+                                <a className="nav-link" style={{ color: "white" }} href="#">Phòng</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Dịch vụ</a>
+                                <a className="nav-link" style={{ color: "white" }} href="#">Dịch vụ</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Khuyến mãi</a>
+                                <a className="nav-link" style={{ color: "white" }} href="#">Khuyến mãi</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Liên hệ</a>
+                                <a className="nav-link" style={{ color: "white" }} href="#">Liên hệ</a>
                             </li>
 
                         </ul>
@@ -105,6 +121,7 @@ const Header = () => {
                                             // Reload lại trang sau khi xóa token
                                             window.location.reload();
                                         }}
+
                                     >
                                         Đăng xuất
                                     </NavLink>
@@ -119,8 +136,8 @@ const Header = () => {
                             <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
 
 
-                                <NavLink className="nav-link active  btn-outline-primary" style={{ marginRight: "13px", marginLeft: "13px" }} aria-current="page" to="/dangKy">Đăng ký</NavLink>
-                                <NavLink className="nav-link active  btn-outline-primary" style={{ marginRight: "13px", marginLeft: "13px" }} aria-current="page" to="/dangNhap">Đăng nhập</NavLink>
+                                <NavLink className="btn btn-outline-success btn-hover-outline mx-2" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="/dangKy">Đăng ký</NavLink>
+                                <NavLink className="btn btn-outline-primary btn-hover-outline mx-2" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="/dangNhap">Đăng nhập</NavLink>
 
 
                             </div>

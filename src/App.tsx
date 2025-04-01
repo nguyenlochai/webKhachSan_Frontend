@@ -11,6 +11,9 @@ import ChiTietPhongPage from './layout/ChiTietPhongPage';
 import DangKyPage from './layout/DangKyPage';
 import LoginPage from './layout/LoginPage';
 import PaymentResult from './layout/PaymentResult';
+import Test from './layout/Test';
+import DanhSachPhongTrong from './layout/danhSachPhong/DanhSachPhongTrong';
+import DanhSachPhongPage from './layout/DanhSachPhongPage';
 
 
 
@@ -28,6 +31,8 @@ function App() {
 
       <BrowserRouter>
         <Routes>
+          <Route path="/test" element={<Test />} />
+          <Route path="/phong" element={<DanhSachPhongPage />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/dangKy" element={<DangKyPage />} />
           <Route path="/dangNhap" element={<LoginPage />} />

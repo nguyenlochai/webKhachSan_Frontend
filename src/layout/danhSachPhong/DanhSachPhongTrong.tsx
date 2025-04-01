@@ -68,6 +68,7 @@ const DanhSachPhongTrong = () => {
                                     <h5 className="card-title mb-2">{room.tenPhong}</h5>
                                     <p className="text-muted mb-2">Sức chứa: {room.sucChua} người</p>
                                     <p className="text-muted mb-2">Số phòng: {room.soPhong}</p>
+                                    <p className="card-text text-warning">5 ⭐⭐⭐⭐⭐</p>
                                     <p className="text-muted mb-3">
 
                                     </p>
