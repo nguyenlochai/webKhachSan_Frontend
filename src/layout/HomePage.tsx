@@ -8,8 +8,6 @@ import LyDoChonKhachSan from './thongTinKhachSan/LyDoChonKhachSan';
 import TimPhongTrong from './timKem/TimPhongTrong';
 import Banner from './banner/Banner';
 import DanhSachPhongGiaDinh from './danhSachPhong/DanhSachPhongGiaDinh';
-import { HinhAnhModel } from '../models/HinhAnh';
-import { lay1AnhPhong } from '../api/AnhPhogAPI';
 import { NavLink } from 'react-router-dom';
 
 const HomePage = () => {
@@ -25,7 +23,6 @@ const HomePage = () => {
         console.error("Lỗi khi lấy phòng:", error);
       }
     };
-
     fetchRooms();
   }, []);
 
@@ -41,7 +38,6 @@ const HomePage = () => {
 
     fetchRoomsGiaDinh();
   }, []);
-
 
 
 

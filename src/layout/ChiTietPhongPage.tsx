@@ -9,6 +9,7 @@ import { layAllAnhPhong } from "../api/AnhPhogAPI";
 import { datPhongThanhToan } from "../api/ThanhToan";
 import { MyJwtPayload } from "../models/MyJwtPayload";
 import { jwtDecode } from "jwt-decode";
+import { FormatCurrency } from "../models/FormatCurrency";
 
 
 
@@ -114,8 +115,6 @@ const ChiTietPhongPage = () => {
         );
     }
 
-
-
     const handleDatPhong = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -174,7 +173,8 @@ const ChiTietPhongPage = () => {
                                 <div className="carousel-inner">
                                     {anhPhong.map((anh, index) => (
                                         <div key={anh.idHinnhAnnh} className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                                            <img className="d-block w-100" src={anh.duLieuAnh} alt={`Slide ${index + 1}`} />
+                                            <img className="d-block w-100" src={`http://localhost:8080/${anh.duongDan}`} alt={`Slide ${index + 1}`} />
+
                                         </div>
                                     ))}
                                 </div>
@@ -209,7 +209,7 @@ const ChiTietPhongPage = () => {
                             <p className="card-text text-warning">5 ⭐⭐⭐⭐⭐</p>
                             <div className="d-flex align-items-center mb-3">
                                 <i className="bi bi-currency-exchange me-2 text-primary"></i>
-                                <span className="fs-4 fw-bold text-primary">{phong.giaPhong.toLocaleString()} VND</span>
+                                <span className="fs-4 fw-bold text-primary">{FormatCurrency(phong.giaPhong)}</span>
                                 <span className="text-muted ms-1">/đêm</span>
                             </div>
 

@@ -1,12 +1,12 @@
 import React from "react";
-import bgImage from '../../images/db02efdd-37f4-4d1d-9a62-5da63f135c2e.png';
+
 
 const Banner = () => {
     return (
         <div className="position-relative">
             <div style={{
                 height: "80vh",
-                backgroundImage: `url(${bgImage})`,
+                backgroundImage: "url('/images/db02efdd-37f4-4d1d-9a62-5da63f135c2e.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center"
             }}>

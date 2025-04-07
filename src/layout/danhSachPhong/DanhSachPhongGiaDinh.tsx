@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { PhongModel } from "../../models/PhongModel";
 import { HinhAnhModel } from "../../models/HinhAnh";
 import { lay1AnhPhong } from "../../api/AnhPhogAPI";
+import { FormatCurrency } from "../../models/FormatCurrency";
+import HinhAnhPhong from "./AnhPhong";
 
 
 interface danhSachPhongGiaDinhProps {
@@ -11,14 +13,14 @@ interface danhSachPhongGiaDinhProps {
 
 const DanhSachPhongGiaDinh = ({ danhSachPhongGiaDinh }: danhSachPhongGiaDinhProps) => {
 
-    const [anhPhong, setAnhPhong] = useState<HinhAnhModel[]>([]);
+    const [anhPhong, setAnhPhong] = useState<HinhAnhModel>();
 
     useEffect(() => {
         const fetchRooms = async () => {
             for (const room of danhSachPhongGiaDinh) {
                 try {
                     const data = await lay1AnhPhong(room.idPhong);
-                    setAnhPhong((prev) => [...prev, ...data]);
+                    setAnhPhong(data);
                 } catch (error) {
                     console.error("Lỗi khi lấy ảnh phòng:", error);
                 }
@@ -28,7 +30,7 @@ const DanhSachPhongGiaDinh = ({ danhSachPhongGiaDinh }: danhSachPhongGiaDinhProp
         if (danhSachPhongGiaDinh.length > 0) {
             fetchRooms();
         }
-    }, [danhSachPhongGiaDinh]);// bắt buộc có 
+    }, [danhSachPhongGiaDinh]);
 
     return (
         <section className="py-5 bg-white">
@@ -46,12 +48,7 @@ const DanhSachPhongGiaDinh = ({ danhSachPhongGiaDinh }: danhSachPhongGiaDinhProp
                     {danhSachPhongGiaDinh.map((room) => (
                         <div key={room.idPhong} className="col-md-6 col-lg-4">
                             <div className="card h-100 border-0 shadow-sm">
-                                <img
-                                    src={anhPhong[0]?.duLieuAnh || ""}
-                                    className="card-img-top"
-                                    alt={room.tenPhong}
-                                    style={{ height: "250px", objectFit: "cover" }}
-                                />
+                                <HinhAnhPhong idPhong={room.idPhong} />
                                 <div className="card-body">
                                     <h5 className="card-title mb-2">{room.tenPhong}</h5>
                                     <p className="text-muted mb-2">Sức chứa: {room.sucChua} người</p>
@@ -63,7 +60,7 @@ const DanhSachPhongGiaDinh = ({ danhSachPhongGiaDinh }: danhSachPhongGiaDinhProp
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div>
                                             <span className="fs-5 fw-bold text-primary">
-                                                {room.giaPhong.toLocaleString()} VND
+                                                {FormatCurrency(room.giaPhong)} VND
                                             </span>
                                             <span className="text-muted"> /đêm</span>
                                         </div>

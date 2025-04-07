@@ -1,10 +1,10 @@
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MyJwtPayload } from "../../models/MyJwtPayload";
 
 const Header = () => {
-
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [anhUsername, setAnhUsername] = useState<string | null>(null);
 
@@ -14,13 +14,15 @@ const Header = () => {
         if (token) {
             //tải npm install jwt-decode về mới dùng jwtDecode để giải mã đc
             const userData: MyJwtPayload = jwtDecode(token);
+            if (userData.isAdmin) {
+                navigate(`/admin`);
+            }
             console.log(userData);
             console.log(userData.idTaiKhoan);
             // nếu giả mã thành công
             if (userData) {
                 // sub đại diện cho "subject" và thường chứa thông tin về người dùng mà token đại diện, như ID người dùng hoặc username.
                 setUsername(userData.sub + '');
-
             }
         }
 
@@ -28,10 +30,6 @@ const Header = () => {
 
     return (
         <div>
-
-
-
-
             {/* Header */}
             <header className="bg-white shadow-sm sticky-top" style={{
                 background: "linear-gradient(to right, rgb(0 0 0) 0%, rgb(34 89 7) 50%, rgb(2 70 89) 100%)",
@@ -63,7 +61,7 @@ const Header = () => {
                                 <a className="nav-link" style={{ color: "white" }} href="#">Phòng</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" style={{ color: "white" }} href="#">Dịch vụ</a>
+                                <NavLink className="btn btn-outline-success btn-hover-outline mx-2" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="/danhSachDichVu">Dịch vụ</NavLink>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" style={{ color: "white" }} href="#">Khuyến mãi</a>
@@ -76,7 +74,9 @@ const Header = () => {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", marginLeft: "8px", marginRight: "8px" }}>
                         {/*có đăng nhập */}
-
+                        {/* {username && ( 
+                            
+                        )} */}
 
                         <div className="nav-item dropdown">
                             <NavLink

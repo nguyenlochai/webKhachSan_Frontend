@@ -14,6 +14,9 @@ import PaymentResult from './layout/PaymentResult';
 import Test from './layout/Test';
 import DanhSachPhongTrong from './layout/danhSachPhong/DanhSachPhongTrong';
 import DanhSachPhongPage from './layout/DanhSachPhongPage';
+import AdminDashboard from './layout/admin/AdminDashboard';
+import DanhSachDichVuPage from './layout/DanhSachDichVu';
+import RoomsContent from './layout/admin/content/RoomsContent';
 
 
 
@@ -31,6 +34,8 @@ function App() {
 
       <BrowserRouter>
         <Routes>
+          <Route path="/danhSachDichVu" element={<DanhSachDichVuPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/test" element={<Test />} />
           <Route path="/phong" element={<DanhSachPhongPage />} />
           <Route path="/" element={<HomePage />} />
@@ -40,6 +45,9 @@ function App() {
           <Route path="/chiTietPhong/:idPhong" element={<ChiTietPhongPage />} />
           <Route path="/chiTietPhong/:idPhong/:checkInDate/:checkOutDate" element={<ChiTietPhongPage />} />
           <Route path="/payment/result" element={<PaymentResult />} />
+
+          {/* admin */}
+          <Route path="/admin/quanlyPhong" element={<RoomsContent />} />
 
         </Routes>
       </BrowserRouter>

@@ -3,6 +3,8 @@ import { HinhAnhModel } from "../../models/HinhAnh";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PhongModel } from "../../models/PhongModel";
 import { lay1AnhPhong } from "../../api/AnhPhogAPI";
+import { FormatCurrency } from "../../models/FormatCurrency";
+import HinhAnhPhong from "./AnhPhong";
 
 
 
@@ -19,7 +21,7 @@ const DanhSachPhongTrong = () => {
         checkOutDate: string;
     } || { dsPhong: [], checkInDate: '', checkOutDate: '' };
 
-    const [anhPhong, setAnhPhong] = useState<HinhAnhModel[]>([]);
+    const [anhPhong, setAnhPhong] = useState<HinhAnhModel>();
 
 
     useEffect(() => {
@@ -27,7 +29,7 @@ const DanhSachPhongTrong = () => {
             for (const room of dsPhong) {
                 try {
                     const data = await lay1AnhPhong(room.idPhong);
-                    setAnhPhong((prev) => [...prev, ...data]);
+                    setAnhPhong(data);
                 } catch (error) {
                     console.error("Lỗi khi lấy ảnh phòng:", error);
                 }
@@ -58,12 +60,7 @@ const DanhSachPhongTrong = () => {
                     {dsPhong.map((room) => (
                         <div key={room.idPhong} className="col-md-6 col-lg-4">
                             <div className="card h-100 border-0 shadow-sm">
-                                <img
-                                    src={anhPhong[0]?.duLieuAnh || ""}
-                                    className="card-img-top"
-                                    alt={room.tenPhong}
-                                    style={{ height: "250px", objectFit: "cover" }}
-                                />
+                                <HinhAnhPhong idPhong={room.idPhong} />
                                 <div className="card-body">
                                     <h5 className="card-title mb-2">{room.tenPhong}</h5>
                                     <p className="text-muted mb-2">Sức chứa: {room.sucChua} người</p>
@@ -75,7 +72,7 @@ const DanhSachPhongTrong = () => {
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div>
                                             <span className="fs-5 fw-bold text-primary">
-                                                {room.giaPhong.toLocaleString()} VND
+                                                {FormatCurrency(room.giaPhong)} VND
                                             </span>
                                             <span className="text-muted"> /đêm</span>
                                         </div>

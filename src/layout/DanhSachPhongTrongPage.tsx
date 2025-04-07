@@ -13,11 +13,6 @@ const DanhSachPhongTrongPage = () => {
 
                 <div className="container">
 
-
-
-
-
-
                     {/* Tiêu đề kết quả */}
                     <div className="mb-4">
                         <h2>Phòng trống </h2>

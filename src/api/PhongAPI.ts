@@ -12,12 +12,11 @@ export const layAllPhong = async (): Promise<PhongModel[]> => {
   const data = await response.json();
   console.log("Dữ liệu API:", data);
 
-
   return data._embedded.phongs as PhongModel[];
 };
 
 export const lay3PhongVip = async (): Promise<PhongModel[]> => {
-  const url = "http://localhost:8080/loai-phong/6/danhSachPhong";
+  const url = "http://localhost:8080/loai-phong/5/danhSachPhong";
   const response = await fetch(url);
 
   if (!response.ok) {
