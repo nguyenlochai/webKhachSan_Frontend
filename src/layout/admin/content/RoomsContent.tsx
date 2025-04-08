@@ -5,6 +5,7 @@ import { layAllPhong } from "../../../api/PhongAPI";
 import { layAllLoaiPhong, layLoaiPhongTheoIdPhong } from "../../../api/LoaiPhongAPI";
 import { LoaiPhongModel } from "../../../models/LoaiPhongModel";
 import DanhSachLoaiPhongCua1Phong from "../components/DanhSachLoaiPhongCua1Phong";
+import { NavLink } from "react-router-dom";
 
 const RoomsContent = () => {
     const [dsPhong, setDsPhong] = useState<PhongModel[]>([]);
@@ -22,9 +23,7 @@ const RoomsContent = () => {
         fetchRooms();
     }, []);
 
-    const handleThemPhong = () => {
 
-    }
 
 
     return (
@@ -37,9 +36,10 @@ const RoomsContent = () => {
                         <li className="breadcrumb-item active">Phòng</li>
                     </ol>
                 </div>
-                <button className="btn btn-primary" onClick={handleThemPhong} >
-                    <i className="bi bi-plus-lg me-2"></i>Thêm phòng mới
-                </button>
+
+                <i className="bi bi-plus-lg me-2"></i>
+                <NavLink className="btn btn-outline-success btn-hover-outline mx-2" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="themPhong">Thêm phòng mới</NavLink>
+
             </div>
             <div className="row mb-4">
                 <div className="col-xl-3 col-md-6">
