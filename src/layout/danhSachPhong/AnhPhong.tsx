@@ -20,8 +20,6 @@ const HinhAnhPhong: React.FC<HinhAnhPhongProps> = ({ idPhong }) => {
 
     return (
         <div>
-
-
             <img
                 src={`http://localhost:8080/${anhPhong?.duongDan}`}
                 className="card-img-top"

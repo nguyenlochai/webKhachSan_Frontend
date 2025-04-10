@@ -10,6 +10,14 @@ export interface PhongModel {
     soPhong: number;
     tinhTrangPhong: TinhTrangPhong;
     moTa: string;
+    // loaiPhong: {
+    //     idLoaiPhong: number
+    // }
+
+    // hinhAnh: {
+    //     tenHinhAnh: string;
+    //     duongDan: string;
+    // }
 
 
 }

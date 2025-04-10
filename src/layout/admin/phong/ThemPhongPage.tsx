@@ -1,4 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import FooterAdmin from "../header-footer/FooterAdmin";
+
 
 type HinhAnh = {
     tenHinhAnh: string;
@@ -20,6 +22,11 @@ type PhongDto = {
 };
 
 const ThemPhongPage: React.FC = () => {
+
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+
+    // Lấy toàn bộ thuộc tính của PhongDto trừ ra danhSachHinhAnh
     const [formData, setFormData] = useState<Omit<PhongDto, "danhSachHinhAnh">>({
         tenPhong: "",
         giaPhong: 0,
@@ -29,9 +36,8 @@ const ThemPhongPage: React.FC = () => {
         loaiPhong: { idLoaiPhong: 0 }
     });
 
-    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-    const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
+    // nhận 4 dữ liệu idLoaiPhong, giaPhong, sucChua, soPhong đưa vào formData
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         if (name === "idLoaiPhong") {
@@ -47,51 +53,65 @@ const ThemPhongPage: React.FC = () => {
         }
     };
 
+    // nhận file người dùng chọn
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        // nếu có file nào được chọn
         if (e.target.files) {
+            // files chuyển thành mảng (xử lý người dùng chọn nhiều file cùng 1 lúc)
+            // e.target.files mặc định là FileList (file giả => k phải file thật nên cần chuyển thành file thật)
             const files = Array.from(e.target.files);
+            // Cập nhật thêm mảng file mới vào selectedFiles
             setSelectedFiles((prev) => [...prev, ...files]);
+            // tạo ra một URL tạm (kiểu blob:) đại diện cho file ảnh đó đưa vào newPreviews
             const newPreviews = files.map((file) => URL.createObjectURL(file));
+            console.log(files)
+            console.log(newPreviews)
+            // Thêm các URL mới vào previewUrls để hiển thị trong giao diện.
             setPreviewUrls((prev) => [...prev, ...newPreviews]);
         }
+        // Xoá giá trị đã chọn trong input file sau khi người dùng chọn ảnh.
         e.target.value = "";
     };
 
+
+    // index là vị trí của ảnh trong danh sách ảnh preview
     const handleRemoveImage = (index: number) => {
+        // Tạo bản sao của selectedFiles
         const newFiles = [...selectedFiles];
+        // Tạo bản sao của previewUrls (các link ảnh dùng để hiển thị preview)
         const newPreviews = [...previewUrls];
+        // Xoá 1 phần tử tại vị trí index trong newFile
         newFiles.splice(index, 1);
+        // Xoá 1 phần tử tại vị trí index trong newPreviews
         newPreviews.splice(index, 1);
+        // Cập nhật lại selectedFiles
         setSelectedFiles(newFiles);
+        // Cập nhật lại previewUrls
         setPreviewUrls(newPreviews);
     };
 
-    const uploadImage = async (file: File): Promise<HinhAnh> => {
-        const form = new FormData();
-        form.append("file", file);
-        const res = await fetch("http://localhost:8080/api/phong/upload", {
-            method: "POST",
-            body: form
-        });
-        if (!res.ok) throw new Error("Lỗi khi upload ảnh");
-        return await res.json();
-    };
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         try {
+            // tạo một mảng rỗng để chứa kết quả của các ảnh đã upload thành công
             const uploadedImages: HinhAnh[] = [];
             for (const file of selectedFiles) {
                 const img = await uploadImage(file);
                 uploadedImages.push(img);
+                console.log("uploadedImages" + uploadedImages);
             }
+
+            // Gộp tất cả dữ liệu form (formData) với danh sách ảnh vừa upload.
             const fullData: PhongDto = {
                 ...formData,
                 danhSachHinhAnh: uploadedImages
             };
             const res = await fetch("http://localhost:8080/api/phong/themPhong", {
                 method: "POST",
+                // Ê server, dữ liệu tao sắp gửi ở phần body là JSON đó nha!
                 headers: { "Content-Type": "application/json" },
+                // Chuyển object JavaScript (fullData) thành chuỗi JSON để gửi lên server.
                 body: JSON.stringify(fullData)
             });
             if (!res.ok) throw new Error("Gửi thông tin phòng thất bại");
@@ -100,6 +120,22 @@ const ThemPhongPage: React.FC = () => {
             console.error(err);
             alert("Có lỗi xảy ra!");
         }
+    };
+
+    // tham số file là lặp qua từng selectedFiles tuyền vào đây
+    const uploadImage = async (file: File): Promise<HinhAnh> => {
+        // Tạo một object FormData mới
+        const form = new FormData();
+        // "file" là tên trường sẽ gửi đến server 
+        // file là object ảnh người dùng vừa chọn.
+        form.append("file", file);
+        // gửi đến server
+        const res = await fetch("http://localhost:8080/api/phong/upload", {
+            method: "POST",
+            body: form
+        });
+        if (!res.ok) throw new Error("Lỗi khi upload ảnh");
+        return await res.json();
     };
 
     return (
@@ -155,6 +191,7 @@ const ThemPhongPage: React.FC = () => {
                     Thêm Phòng
                 </button>
             </form>
+            <FooterAdmin />
         </div>
     );
 };

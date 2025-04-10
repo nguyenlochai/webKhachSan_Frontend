@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { PhongModel } from "../../../models/PhongModel";
 import { layAllPhong } from "../../../api/PhongAPI";
-import { layAllLoaiPhong, layLoaiPhongTheoIdPhong } from "../../../api/LoaiPhongAPI";
-import { LoaiPhongModel } from "../../../models/LoaiPhongModel";
 import DanhSachLoaiPhongCua1Phong from "../components/DanhSachLoaiPhongCua1Phong";
 import { NavLink } from "react-router-dom";
+import HinhAnhPhong from "../../danhSachPhong/AnhPhong";
 
 const RoomsContent = () => {
     const [dsPhong, setDsPhong] = useState<PhongModel[]>([]);
@@ -22,6 +21,28 @@ const RoomsContent = () => {
         console.log(dsPhong)
         fetchRooms();
     }, []);
+
+    const xoaPhong = async (id: number) => {
+        const xacNhan = window.confirm("Bạn có chắc chắn muốn xóa phòng này không?");
+        if (!xacNhan) return;
+        try {
+            const res = await fetch(`http://localhost:8080/api/phong/${id}`, {
+                method: 'DELETE',
+            });
+            if (res.status === 204) {
+                alert("Đã xóa phòng thành công!");
+                setDsPhong(prev => prev.filter(phong => phong.idPhong !== id));
+            } else if (res.status === 404) {
+                alert("Phòng không tồn tại hoặc đã bị xóa trước đó.");
+            } else {
+                alert("Xóa phòng thất bại. Mã lỗi: " + res.status);
+            }
+        } catch (error) {
+            console.error("Lỗi khi gửi yêu cầu xóa:", error);
+            alert("Lỗi khi kết nối đến máy chủ.");
+        }
+    };
+
 
 
 
@@ -150,6 +171,7 @@ const RoomsContent = () => {
                                 <tr>
                                     <th>Số phòng</th>
                                     <th>Tên phòng</th>
+                                    <th>Ảnh phòng</th>
                                     <th>Loại</th>
                                     <th>Sức chứa</th>
                                     <th>Giá/đêm</th>
@@ -165,6 +187,10 @@ const RoomsContent = () => {
                                         <td>{room.tenPhong}</td>
 
                                         <td>
+                                            <HinhAnhPhong idPhong={room.idPhong} />
+                                        </td>
+
+                                        <td>
                                             <DanhSachLoaiPhongCua1Phong idPhong={room.idPhong} />
                                         </td>
 
@@ -175,16 +201,21 @@ const RoomsContent = () => {
                                         </td>
                                         <td>
                                             <div className="btn-group">
-                                                <button className="btn btn-sm btn-outline-primary">
-                                                    <i className="bi bi-eye"></i>
+                                                <NavLink
+                                                    className="btn btn-sm btn-outline-secondary"
+                                                    to={`/admin/suaPhong/${room.idPhong}`}
+                                                >
+                                                    Sửa
+                                                </NavLink>
+                                                <button
+                                                    className="btn btn-sm btn-outline-danger"
+                                                    onClick={() => xoaPhong(room.idPhong)}
+                                                >
+                                                    Xóa
                                                 </button>
-                                                <button className="btn btn-sm btn-outline-secondary">
-                                                    <i className="bi bi-pencil"></i>
-                                                </button>
-                                                <button className="btn btn-sm btn-outline-danger">
-                                                    <i className="bi bi-trash"></i>
-                                                </button>
+
                                             </div>
+
                                         </td>
                                     </tr>
                                 ))}

@@ -18,6 +18,7 @@ import AdminDashboard from './layout/admin/AdminDashboard';
 import DanhSachDichVuPage from './layout/DanhSachDichVu';
 import RoomsContent from './layout/admin/content/RoomsContent';
 import ThemPhongPage from './layout/admin/phong/ThemPhongPage';
+import SuaPhong from './layout/admin/phong/SuaPhong';
 
 
 
@@ -50,6 +51,8 @@ function App() {
           {/* admin */}
           <Route path="/admin/quanlyPhong" element={<RoomsContent />} />
           <Route path="/admin/themPhong" element={<ThemPhongPage />} />
+          <Route path="/admin/suaPhong/:id" element={<SuaPhong />} />
+
 
         </Routes>
       </BrowserRouter>
