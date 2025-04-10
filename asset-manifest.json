@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/webKhachSan_Frontend/static/css/main.f855e6bc.css",
+    "main.js": "/webKhachSan_Frontend/static/js/main.baad0e94.js",
+    "index.html": "/webKhachSan_Frontend/index.html",
+    "main.f855e6bc.css.map": "/webKhachSan_Frontend/static/css/main.f855e6bc.css.map",
+    "main.baad0e94.js.map": "/webKhachSan_Frontend/static/js/main.baad0e94.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.baad0e94.js"
+  ]
+}
