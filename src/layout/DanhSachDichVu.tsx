@@ -4,8 +4,12 @@ import Footer from './header-footer/Footer';
 import { DichVuModel } from '../models/DichVu';
 import { getDanhSachDichVu } from '../api/DanhSachDichVu';
 import { FormatCurrency } from '../models/FormatCurrency';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function DanhSachDichVuPage() {
+
+    const navigate = useNavigate();
+
     // Danh sách sản phẩm tĩnh
     const [dichVu, setDichVu] = useState<DichVuModel[]>([])
     useEffect(() => {
@@ -19,7 +23,11 @@ export default function DanhSachDichVuPage() {
         };
         fetchDichVu();
 
-    }, [dichVu]);
+    }, []);
+
+    const chuyenDenTrangChiTietDichVu = (idDichVu: number) => {
+        navigate(`/chiTietDichVu/${idDichVu}`);
+    };
 
     return (
         <div className="container-fluid p-0">
@@ -43,10 +51,16 @@ export default function DanhSachDichVuPage() {
                                 <div className="card h-100 shadow-sm">
                                     <div className="position-relative">
                                         <img
-                                            src=""
-                                            className="card-img-top"
+                                            src={`http://localhost:8080/${dichVu.imageUrl}`}
+                                            className="card-img-top" style={{
+                                                width: "80%",
+                                                height: "80%",
+                                                objectFit: "cover",
+                                                borderRadius: "10px",
+                                            }}
                                             alt=""
                                         />
+                                        {/* ={anhPhong[0]?.duLieuAnh || ""}   */}
                                         <span className="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded">
                                             Mới
                                         </span>
@@ -58,8 +72,11 @@ export default function DanhSachDichVuPage() {
                                         <div className="d-flex justify-content-between align-items-center mt-3">
                                             <span className="fw-bold fs-5 text-danger">{FormatCurrency(dichVu.giaDichVu)} VND</span>
 
-                                            <button className="btn btn-primary">
-                                                Đặt hàng
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={() => chuyenDenTrangChiTietDichVu(dichVu.idDichVu)}
+                                            >
+                                                Xem chỗ trống
                                             </button>
                                         </div>
                                     </div>

@@ -53,9 +53,7 @@ const ThemPhongPage: React.FC = () => {
         }
     };
 
-    // nhận file người dùng chọn
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        // nếu có file nào được chọn
         if (e.target.files) {
             // files chuyển thành mảng (xử lý người dùng chọn nhiều file cùng 1 lúc)
             // e.target.files mặc định là FileList (file giả => k phải file thật nên cần chuyển thành file thật)
@@ -73,36 +71,35 @@ const ThemPhongPage: React.FC = () => {
         e.target.value = "";
     };
 
-
-    // index là vị trí của ảnh trong danh sách ảnh preview
-    const handleRemoveImage = (index: number) => {
-        // Tạo bản sao của selectedFiles
-        const newFiles = [...selectedFiles];
-        // Tạo bản sao của previewUrls (các link ảnh dùng để hiển thị preview)
-        const newPreviews = [...previewUrls];
-        // Xoá 1 phần tử tại vị trí index trong newFile
-        newFiles.splice(index, 1);
-        // Xoá 1 phần tử tại vị trí index trong newPreviews
-        newPreviews.splice(index, 1);
-        // Cập nhật lại selectedFiles
-        setSelectedFiles(newFiles);
-        // Cập nhật lại previewUrls
-        setPreviewUrls(newPreviews);
+    // tham số file là lặp qua từng selectedFiles tuyền vào đây
+    const uploadImage = async (file: File): Promise<HinhAnh> => {
+        // Tạo một object FormData mới
+        const form = new FormData();
+        // "file" là tên trường sẽ gửi đến server 
+        // file là object ảnh người dùng vừa chọn.
+        form.append("file", file);
+        // gửi đến server
+        const res = await fetch("http://localhost:8080/api/phong/upload", {
+            method: "POST",
+            body: form
+        });
+        if (!res.ok) throw new Error("Lỗi khi upload ảnh");
+        return await res.json();
     };
 
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         try {
-            // tạo một mảng rỗng để chứa kết quả của các ảnh đã upload thành công
+            // tạo một mảng rỗng để chứa kết quả tenHinhAnh và duongDan là để lưu vào database
             const uploadedImages: HinhAnh[] = [];
+            // gởi từng file đến uploadImage để sử lý lưu từng file vào server
             for (const file of selectedFiles) {
                 const img = await uploadImage(file);
                 uploadedImages.push(img);
-                console.log("uploadedImages" + uploadedImages);
             }
 
-            // Gộp tất cả dữ liệu form (formData) với danh sách ảnh vừa upload.
+            // Gộp tất cả dữ liệu từ form (formData) với danh sách ảnh upload vào fullData 
             const fullData: PhongDto = {
                 ...formData,
                 danhSachHinhAnh: uploadedImages
@@ -122,20 +119,21 @@ const ThemPhongPage: React.FC = () => {
         }
     };
 
-    // tham số file là lặp qua từng selectedFiles tuyền vào đây
-    const uploadImage = async (file: File): Promise<HinhAnh> => {
-        // Tạo một object FormData mới
-        const form = new FormData();
-        // "file" là tên trường sẽ gửi đến server 
-        // file là object ảnh người dùng vừa chọn.
-        form.append("file", file);
-        // gửi đến server
-        const res = await fetch("http://localhost:8080/api/phong/upload", {
-            method: "POST",
-            body: form
-        });
-        if (!res.ok) throw new Error("Lỗi khi upload ảnh");
-        return await res.json();
+
+    // index là vị trí của ảnh trong danh sách ảnh preview
+    const handleRemoveImage = (index: number) => {
+        // Tạo bản sao của selectedFiles
+        const newFiles = [...selectedFiles];
+        // Tạo bản sao của previewUrls (các link ảnh dùng để hiển thị preview)
+        const newPreviews = [...previewUrls];
+        // Xoá 1 phần tử tại vị trí index trong newFile
+        newFiles.splice(index, 1);
+        // Xoá 1 phần tử tại vị trí index trong newPreviews
+        newPreviews.splice(index, 1);
+        // Cập nhật lại selectedFiles
+        setSelectedFiles(newFiles);
+        // Cập nhật lại previewUrls
+        setPreviewUrls(newPreviews);
     };
 
     return (

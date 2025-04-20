@@ -4,6 +4,7 @@ export interface DichVuModel {
     giaDichVu: number;
     moTa: string;
     soLuong: number;
+    imageUrl: string;
 
 }
 

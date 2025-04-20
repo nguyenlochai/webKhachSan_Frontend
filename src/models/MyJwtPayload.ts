@@ -6,4 +6,5 @@ export interface MyJwtPayload {
         sub: string;
         exp: number;
         iat: number;
+        tenTaiKhoan: String;
 }

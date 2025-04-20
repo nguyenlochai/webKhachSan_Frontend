@@ -1,6 +1,6 @@
 import { PhongModel } from "../models/PhongModel";
 
-// DanhSachPhongTrongAPI.ts
+// DanhSachPhongTrong ngày nhân , ngày trả
 export const danhSachPhongTrong = async (startDate: string, endDate: string, sucChua: number): Promise<PhongModel[]> => {
     const url = `http://localhost:8080/api/phong/trong?startDate=${startDate}&endDate=${endDate}&sucChua=${sucChua}`;
     const response = await fetch(url);

@@ -55,11 +55,9 @@ const Footer = () => {
                             <ul className="list-unstyled">
                                 <li className="mb-2 d-flex">
                                     <i className="bi bi-geo-alt me-2"></i>
-                                    <span>123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
+                                    <span>Điện Hòa, Điện Bàn, Quảng Nam</span>
                                 </li>
-                                <li className="mb-2 d-flex">
-                                    <i className="bi bi-telephone me-2"></i>
-                                </li>
+
                                 <li className="mb-2 d-flex">
                                     <i className="bi bi-telephone me-2"></i>
                                     <span>+84 28 1234 5678</span>

@@ -1,3 +1,4 @@
+import { DichVuModel } from "../models/DichVu";
 import { PhongModel } from "../models/PhongModel";
 
 export const datPhongThanhToan = async (phong: PhongModel | null, idTaiKhoan: number, checkInDate: any, checkOutDate: any) => {
@@ -15,6 +16,30 @@ export const datPhongThanhToan = async (phong: PhongModel | null, idTaiKhoan: nu
             idTaiKhoan: idTaiKhoan,
             checkInDate: checkInDate,
             checkOutDate: checkOutDate
+        }),
+    });
+    if (!response.ok) {
+        throw new Error(`Có lỗi xảy ra: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log("Dữ liệu nhận được từ backend:", data);
+    return data;
+};
+
+export const datDichVuThanhToanKhiNhanHang = async (dichVu: DichVuModel | null, idTaiKhoan: number) => {
+    if (!dichVu) {
+        throw new Error("Chưa có dữ liệu phòng!");
+    }
+    const url = `http://localhost:8080/api/payment/payment/dichVu`;
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ...dichVu,
+            idTaiKhoan: idTaiKhoan,
+
         }),
     });
     if (!response.ok) {

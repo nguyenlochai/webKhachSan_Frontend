@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { PhongModel } from "../../../models/PhongModel";
-import { layAllPhong } from "../../../api/PhongAPI";
+import { lay3PhongVip, layAllPhong } from "../../../api/PhongAPI";
 import DanhSachLoaiPhongCua1Phong from "../components/DanhSachLoaiPhongCua1Phong";
 import { NavLink } from "react-router-dom";
 import HinhAnhPhong from "../../danhSachPhong/AnhPhong";
@@ -44,8 +44,77 @@ const RoomsContent = () => {
     };
 
 
+    const [tongSoLuongPhong, setTongSoLuongPhong] = useState<number>();
+    useEffect(() => {
+        const fetchPhong = async () => {
+            const data: PhongModel[] = await layAllPhong();
+            const tongSoLuongPhong = data.length;
+            setTongSoLuongPhong(tongSoLuongPhong);
+        };
+        fetchPhong();
+    }, []);
+
+    const [tongSoLuongPhongVip, setTongSoLuongPhongVip] = useState<number>();
+    useEffect(() => {
+        const fetchPhongVip = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/loai-phong/5/danhSachPhong");
+                if (!response.ok) {
+                    throw new Error("Lỗi khi fetch phòng VIP");
+                }
+                const data = await response.json();
+                console.log("Dữ liệu phòng VIP:", data);
+                const danhSachPhong = data._embedded?.phongs || data;
+                setTongSoLuongPhongVip(danhSachPhong.length);
+            } catch (error) {
+                console.error("Lỗi:", error);
+            }
+        };
+
+        fetchPhongVip();
+    }, []);
 
 
+
+    const [tongSoLuongPhongGiaDinh, setTongSoLuongPhongGiaDinh] = useState<number>();
+    useEffect(() => {
+        const fetchPhongGiaDinh = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/loai-phong/3/danhSachPhong");
+                if (!response.ok) {
+                    throw new Error("Lỗi khi fetch phòng VIP");
+                }
+                const data = await response.json();
+                console.log("Dữ liệu phòng Gia Đình:", data);
+                const danhSachPhong = data._embedded?.phongs || data;
+                setTongSoLuongPhongGiaDinh(danhSachPhong.length);
+            } catch (error) {
+                console.error("Lỗi:", error);
+            }
+        };
+
+        fetchPhongGiaDinh();
+    }, []);
+
+    const [tongSoLuongPhongDoi, setTongSoLuongPhongDoi] = useState<number>();
+    useEffect(() => {
+        const fetchPhongDoi = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/loai-phong/2/danhSachPhong");
+                if (!response.ok) {
+                    throw new Error("Lỗi khi fetch phòng VIP");
+                }
+                const data = await response.json();
+                console.log("Dữ liệu phòng Đôi:", data);
+                const danhSachPhong = data._embedded?.phongs || data;
+                setTongSoLuongPhongDoi(danhSachPhong.length);
+            } catch (error) {
+                console.error("Lỗi:", error);
+            }
+        };
+
+        fetchPhongDoi();
+    }, []);
 
     return (
         <div className="container-fluid px-4">
@@ -72,7 +141,7 @@ const RoomsContent = () => {
                                 </div>
                                 <div>
                                     <h6 className="mb-0">Tổng số phòng</h6>
-                                    <h4 className="mb-0">125</h4>
+                                    <h4 className="mb-0">{tongSoLuongPhong ?? 0}</h4>
                                 </div>
                             </div>
                         </div>
@@ -86,8 +155,8 @@ const RoomsContent = () => {
                                     <i className="bi bi-check-circle fs-3 text-success"></i>
                                 </div>
                                 <div>
-                                    <h6 className="mb-0">Phòng trống</h6>
-                                    <h4 className="mb-0">82</h4>
+                                    <h6 className="mb-0">Tổng phòng Vip</h6>
+                                    <h4 className="mb-0">{tongSoLuongPhongVip ?? 0}</h4>
                                 </div>
                             </div>
                         </div>
@@ -101,8 +170,8 @@ const RoomsContent = () => {
                                     <i className="bi bi-person-fill fs-3 text-warning"></i>
                                 </div>
                                 <div>
-                                    <h6 className="mb-0">Phòng đã đặt</h6>
-                                    <h4 className="mb-0">38</h4>
+                                    <h6 className="mb-0">Tổng phòng Gia Đình</h6>
+                                    <h4 className="mb-0">{tongSoLuongPhongGiaDinh ?? 0}</h4>
                                 </div>
                             </div>
                         </div>
@@ -116,8 +185,8 @@ const RoomsContent = () => {
                                     <i className="bi bi-tools fs-3 text-danger"></i>
                                 </div>
                                 <div>
-                                    <h6 className="mb-0">Đang bảo trì</h6>
-                                    <h4 className="mb-0">5</h4>
+                                    <h6 className="mb-0">Tổng phòng Đôi</h6>
+                                    <h4 className="mb-0">{tongSoLuongPhongDoi ?? 0}</h4>
                                 </div>
                             </div>
                         </div>

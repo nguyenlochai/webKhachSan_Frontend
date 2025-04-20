@@ -2,8 +2,12 @@ import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MyJwtPayload } from "../../models/MyJwtPayload";
+import FireworkEffect from "../../conponentsHieuUng/FireworkEffect";
 
 const Header = () => {
+    const [showFireworks, setShowFireworks] = useState<boolean>(false)
+
+
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [anhUsername, setAnhUsername] = useState<string | null>(null);
@@ -17,7 +21,6 @@ const Header = () => {
             if (userData.isAdmin) {
                 navigate(`/admin`);
             }
-            console.log(userData);
             console.log(userData.idTaiKhoan);
             // nếu giả mã thành công
             if (userData) {
@@ -25,7 +28,6 @@ const Header = () => {
                 setUsername(userData.sub + '');
             }
         }
-
     }, []);
 
     return (
@@ -54,19 +56,21 @@ const Header = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
-                            <li className="nav-item">
-                                <a className="nav-link active" style={{ color: "white" }} href="#">Trang chủ</a>
+                            <li className="nav-item mx-2">
+
+                                <NavLink className="btn btn-outline-success btn-hover-outline" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="/">Trang chủ</NavLink>
+
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" style={{ color: "white" }} href="#">Phòng</a>
+                            <li className="nav-item mx-2">
+                                <NavLink className="btn btn-outline-success btn-hover-outline" style={{ color: "white" }} to="/phong">Phòng</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink className="btn btn-outline-success btn-hover-outline mx-2" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="/danhSachDichVu">Dịch vụ</NavLink>
+                            <li className="nav-item mx-2">
+                                <NavLink className="btn btn-outline-success btn-hover-outline" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="/danhSachDichVu">Dịch vụ</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" style={{ color: "white" }} href="#">Khuyến mãi</a>
+                            <li className="nav-item mx-2">
+                                <NavLink className="btn btn-outline-success btn-hover-outline" style={{ marginRight: "13px", marginLeft: "13px", color: "#0dcaf0" }} aria-current="page" to="/lichSu">Lịch sử</NavLink>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item mx-2">
                                 <a className="nav-link" style={{ color: "white" }} href="#">Liên hệ</a>
                             </li>
 
@@ -74,9 +78,6 @@ const Header = () => {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", marginLeft: "8px", marginRight: "8px" }}>
                         {/*có đăng nhập */}
-                        {/* {username && ( 
-                            
-                        )} */}
 
                         <div className="nav-item dropdown">
                             <NavLink
@@ -87,8 +88,20 @@ const Header = () => {
                                 aria-expanded="false"
                             >
                                 {username && (
-                                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                                        <span style={{ marginBottom: "5px" }}>{username}</span>
+
+                                    <div className=" btn btn-outline-success btn-hover-outline" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                        <i className="bi bi-person-check" style={{
+                                            color: "hotpink",
+                                            fontWeight: "bold",
+                                            fontSize: "22px",
+                                            marginBottom: "5px",
+                                        }}></i>
+                                        {/* tên đăng nhập */}
+                                        <span style={{
+                                            marginBottom: "5px",
+                                            color: "hotpink",
+                                            fontWeight: "bold",
+                                        }}>{username}</span>
                                         {anhUsername ? (
                                             <img
                                                 src={anhUsername}
@@ -144,6 +157,23 @@ const Header = () => {
                         )}
                     </div>
                 </nav>
+                <div>
+                    <button
+                        onClick={() => setShowFireworks(!showFireworks)}
+                        className="btn btn-lg px-4 py-2 mb-4"
+                        style={{
+                            background: "linear-gradient(to right, #6f42c1, #e83e8c)",
+                            color: "white",
+                            border: "none",
+                            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        }}
+                    >
+                        {showFireworks ? "Dừng lại đi" : "Xin Chào"}
+                    </button>
+
+                    {showFireworks && <FireworkEffect />}
+
+                </div>
             </header>
         </div>
     );

@@ -1,77 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { PhongModel } from "../models/PhongModel";
-import { HinhAnhModel } from "../models/HinhAnh";
-import { getChiTietPhong } from "../api/ChiTietPhongAPI";
 import Footer from "./header-footer/Footer";
 import Header from "./header-footer/Header";
-import { layAllAnhPhong } from "../api/AnhPhogAPI";
-import { datPhongThanhToan } from "../api/ThanhToan";
+import { DichVuModel } from "../models/DichVu";
+import { getDichVuById } from "../api/DanhSachDichVu";
 import { MyJwtPayload } from "../models/MyJwtPayload";
 import { jwtDecode } from "jwt-decode";
-import { FormatCurrency } from "../models/FormatCurrency";
-import BinhLuan from "./binhLuan-danhGia/BinhLuan";
-import BinhLuanDanhSach from "./binhLuan-danhGia/BinhLuanDanhSach";
+import { datDichVuThanhToanKhiNhanHang } from "../api/ThanhToan";
 
 
 
-const ChiTietPhongPage = () => {
-    // nhân từ DanhSachPhongTrong
-    const { idPhong } = useParams();
-    const idPhongNumber = idPhong ? parseInt(idPhong) : 0;
-    const { checkInDate, checkOutDate } = useParams();
+const ChiTietDichVuPage = () => {
+    // nhân từ DanhSachDichVu
+    const { idDichVu } = useParams();
+    const idDichVuNumber = idDichVu ? parseInt(idDichVu) : 0;
 
     const navigate = useNavigate();
-    const [phong, setPhong] = useState<PhongModel | null>(null);
+    const [dichVu, setDichVu] = useState<DichVuModel | null>(null);
     const [dangTaiDuLieu, setDangTaiDuLieu] = useState<boolean>(true);
     const [loi, setLoi] = useState<string>("");
-    const [anhPhong, setAnhPhong] = useState<HinhAnhModel[]>([]);
 
     useEffect(() => {
         const fetchRooms = async () => {
-
             try {
-                const data = await layAllAnhPhong(idPhongNumber);
-                setAnhPhong(data);
+                const data = await getDichVuById(idDichVuNumber);
+                setDichVu(data);
+                setDangTaiDuLieu(false);
             } catch (error) {
                 console.error("Lỗi khi lấy ảnh phòng:", error);
             }
-
         };
-
-
         fetchRooms();
-
-    }, [idPhongNumber]);
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setDangTaiDuLieu(true);
-            try {
-                if (!idPhongNumber) {
-                    throw new Error("Không tìm thấy ID phòng");
-                }
-
-                const chiTietPhong = await getChiTietPhong(idPhongNumber);
-                setPhong(chiTietPhong);
-
-            } catch (error) {
-                console.error("Lỗi khi tải dữ liệu:", error);
-                setLoi("Không thể tải thông tin phòng. Vui lòng thử lại sau.");
-            } finally {
-                setDangTaiDuLieu(false);
-            }
-        };
-
-
-        if (idPhongNumber > 0) {
-            fetchData();
-        } else {
-            setLoi("ID phòng không hợp lệ");
-            setDangTaiDuLieu(false);
-        }
-    }, [idPhongNumber]);
+    }, []);
 
 
     if (dangTaiDuLieu) {
@@ -101,11 +61,11 @@ const ChiTietPhongPage = () => {
         );
     }
 
-    if (!phong) {
+    if (!dichVu) {
         return (
             <div className="container py-5 text-center">
                 <div className="alert alert-warning" role="alert">
-                    Không tìm thấy thông tin phòng
+                    Không tìm thấy thông tin dịch vụ
                 </div>
                 <button
                     className="btn btn-primary mt-3"
@@ -117,30 +77,27 @@ const ChiTietPhongPage = () => {
         );
     }
 
-    const handleDatPhong = async () => {
+    const handleDatDichVu = async () => {
         try {
             const token = localStorage.getItem('token');
             if (!token) {
                 alert("Vui lòng đăng nhập");
                 return;
             }
-
             const userData: MyJwtPayload = jwtDecode(token);
             console.log("ID Tài khoản:", userData.idTaiKhoan);
 
-            if (!phong) {
-                alert("Không có thông tin phòng để đặt!");
+            if (!dichVu) {
+                alert("Không có thông tin phòng để đặt dịch vụ!");
                 return;
             }
 
-            const result = await datPhongThanhToan(phong, userData.idTaiKhoan, checkInDate, checkOutDate);
-            console.log("Kết quả đặt phòng:", result);
-
-            if (result && result.url) {
-                window.location.href = result.url;
-            } else {
-                alert("Không nhận được URL thanh toán!");
+            const result = await datDichVuThanhToanKhiNhanHang(dichVu, userData.idTaiKhoan);
+            console.log("Kết quả đặt dịch vụ:", result);
+            if (result) {
+                alert("đặt dịch vụ thành công");
             }
+
         } catch (error) {
             console.error("Lỗi:", error);
             alert("Thanh toán không thành công!");
@@ -161,24 +118,14 @@ const ChiTietPhongPage = () => {
                     <div className="col-lg-7 mb-4 mb-lg-0">
                         <div className="col-lg-7 mb-4 mb-lg-0" style={{ width: "100%", height: "100%" }}>
                             <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
-                                <ul className="carousel-indicators" style={{ listStyleType: "none", paddingLeft: 0 }}>
-                                    {anhPhong.map((_, index) => (
-                                        <li
-                                            key={index}
-                                            data-bs-target="#carouselExampleIndicators"
-                                            data-bs-slide-to={index}
-                                            className={index === 0 ? "active" : ""}
-                                        ></li>
-                                    ))}
-                                </ul>
+
 
                                 <div className="carousel-inner">
-                                    {anhPhong.map((anh, index) => (
-                                        <div key={anh.idHinnhAnnh} className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                                            <img className="d-block w-100" src={`http://localhost:8080/${anh.duongDan}`} alt={`Slide ${index + 1}`} />
 
-                                        </div>
-                                    ))}
+                                    <div>
+                                        <img src={`http://localhost:8080/${dichVu.imageUrl}`} alt="" />
+                                    </div>
+
                                 </div>
 
                                 <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -194,39 +141,28 @@ const ChiTietPhongPage = () => {
                     </div>
 
                     <div className="col-lg-5">
-                        <h2 className="mb-3">{phong.tenPhong}</h2>
+                        <h2 className="mb-3">{dichVu.tenDichVu}</h2>
 
                         <div className="mb-4">
                             <div className="d-flex align-items-center mb-2">
                                 <i className="bi bi-people-fill me-2 text-primary"></i>
-                                <span>Sức chứa: {phong.sucChua} người</span>
+                                <span>Sức chứa: {dichVu.soLuong} người</span>
                             </div>
 
                             <div className="d-flex align-items-center mb-2">
                                 <i className="bi bi-door-closed-fill me-2 text-primary"></i>
-                                <span>Số phòng còn trống: {phong.soPhong}</span>
+                                <span>Số phòng còn trống: {dichVu.moTa}</span>
 
                             </div>
 
-                            <p className="card-text text-warning">5 ⭐⭐⭐⭐⭐</p>
-                            <div className="d-flex align-items-center mb-3">
-                                <i className="bi bi-currency-exchange me-2 text-primary"></i>
-                                <span className="fs-4 fw-bold text-primary">{FormatCurrency(phong.giaPhong)}</span>
-                                <span className="text-muted ms-1">/đêm</span>
-                            </div>
 
 
 
-                            <div className="card border-0 shadow-sm p-4 mb-4">
-                                <h5 className="mb-3">Đặt phòng</h5>
 
-                                <div className="mb-3">
-                                    <span>{checkInDate}</span> đến ngày <span>{checkOutDate}</span>
-                                </div>
-                            </div>
+
 
                             <h3 className="mb-3">
-                                <button className="btn btn-outline-secondary" onClick={handleDatPhong}>Đặt phòng</button>
+                                <button className="btn btn-outline-secondary" onClick={handleDatDichVu}>Đặt dịch vụ</button>
                             </h3>
 
                             <div className="d-grid">
@@ -244,11 +180,8 @@ const ChiTietPhongPage = () => {
                 </div>
                 <div className="row">
                     <h5>Mô tả phòng</h5>
-                    <p> {phong.moTa ? phong.moTa : "không có mô tả cho phòng này"}</p>
+                    <p> {dichVu.moTa ? dichVu.moTa : "không có mô tả cho phòng này"}</p>
                 </div>
-
-                <BinhLuan idPhong={phong.idPhong} />
-                <BinhLuanDanhSach idPhong={phong.idPhong} />
 
                 <div className="row mt-5">
                     <div className="col-12">
@@ -305,4 +238,4 @@ const ChiTietPhongPage = () => {
     );
 };
 
-export default ChiTietPhongPage;
+export default ChiTietDichVuPage;

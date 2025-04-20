@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.css';
 
@@ -19,10 +19,18 @@ import DanhSachDichVuPage from './layout/DanhSachDichVu';
 import RoomsContent from './layout/admin/content/RoomsContent';
 import ThemPhongPage from './layout/admin/phong/ThemPhongPage';
 import SuaPhong from './layout/admin/phong/SuaPhong';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import ChiTietDichVuPage from './layout/ChiTietDichVuPage';
+import LichSu from './layout/lichSu/LichSu';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 function App() {
+
+  const [showFireworks, setShowFireworks] = useState<boolean>(false)
+
   return (
     <div className="App">
       {/* <HotelManagement /> */}
@@ -43,6 +51,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/dangKy" element={<DangKyPage />} />
           <Route path="/dangNhap" element={<LoginPage />} />
+          <Route path="/lichSu" element={<LichSu />} />
+          <Route path="/chiTietDichVu/:idDichVu" element={<ChiTietDichVuPage />} />
           <Route path="/danhSachPhongTrong" element={<DanhSachPhongTrongPage />} />
           <Route path="/chiTietPhong/:idPhong" element={<ChiTietPhongPage />} />
           <Route path="/chiTietPhong/:idPhong/:checkInDate/:checkOutDate" element={<ChiTietPhongPage />} />
@@ -57,7 +67,14 @@ function App() {
         </Routes>
       </BrowserRouter>
 
-
+      <ToastContainer position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover />
     </div>
   );
 }

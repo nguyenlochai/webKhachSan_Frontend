@@ -194,7 +194,7 @@ const DangKyPage = () => {
                 {/* Phần banner bên trái - chiếm 60% màn hình trên desktop, ẩn trên mobile */}
                 <div className="col-lg-7 d-none d-lg-block">
                     <div className="bg-primary h-100 position-relative" style={{
-                        background: "linear-gradient(135deg, rgba(0,123,255,0.8) 0%, rgba(25,25,112,0.9) 100%), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80') no-repeat center center",
+                        background: "linear-gradient(135deg, rgba(0,123,255,0.4) 0%, rgba(25,25,112,0.5) 100%), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80') no-repeat center center",
                         backgroundSize: "cover"
                     }}>
                         <div className="position-absolute top-50 start-50 translate-middle text-white text-center p-4">

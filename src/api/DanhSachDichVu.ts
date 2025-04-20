@@ -3,7 +3,7 @@ import { PhongModel } from "../models/PhongModel";
 
 
 export const getDanhSachDichVu = async (): Promise<DichVuModel[]> => {
-    const url = `http://localhost:8080/danh-sach-dich-vu`;
+    const url = `http://localhost:8080/dich-vu`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -19,3 +19,18 @@ export const getDanhSachDichVu = async (): Promise<DichVuModel[]> => {
 
 
 };
+
+export const getDichVuById = async (idDichVu: number): Promise<DichVuModel> => {
+    const url = `http://localhost:8080/dich-vu/${idDichVu}`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+
+        throw new Error("Lỗi khi lấy dữ liệu dịch vụ");
+    }
+
+    const data = await response.json();
+    console.log("Dữ liệu API:", data);
+    return data;
+};
+

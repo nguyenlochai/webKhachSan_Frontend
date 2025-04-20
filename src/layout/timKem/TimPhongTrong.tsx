@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { PhongModel } from '../../models/PhongModel';
 import { danhSachPhongTrong } from '../../api/DanhSachPhongTrongAPI';
-
 import { useNavigate } from 'react-router-dom';
-
-
+import { toast } from 'react-toastify';
 
 const TimPhong = () => {
     const [checkInDate, setCheckInDate] = useState('');
@@ -24,10 +22,8 @@ const TimPhong = () => {
             setError('Vui lòng chọn ngày nhận và trả phòng!');
             return;
         }
-
         setLoading(true);
         setError('');
-
         try {
             const result = await danhSachPhongTrong(checkInDate, checkOutDate, soLuongKhach);
             setDsPhong(result);
@@ -36,13 +32,12 @@ const TimPhong = () => {
             // chuyển đến DanhSachPhongTrong
             navigate('/danhSachPhongTrong', { state: { dsPhong: result, checkInDate, checkOutDate } });
         } catch (err) {
-            setError('Không thể tải danh sách phòng.');
+            setError('Không có phòng.');
+            toast.info("Hiện không có phòng này")
         } finally {
             setLoading(false);
         }
     };
-
-
 
 
     return (
