@@ -1,29 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Header from './header-footer/Header';
 import Footer from './header-footer/Footer';
-import { DichVuModel } from '../models/DichVu';
-import { getDanhSachDichVu } from '../api/DanhSachDichVu';
-import { FormatCurrency } from '../models/FormatCurrency';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function DanhSachDichVuPage() {
 
     const navigate = useNavigate();
 
-    // Danh sách sản phẩm tĩnh
-    const [dichVu, setDichVu] = useState<DichVuModel[]>([])
-    useEffect(() => {
-        const fetchDichVu = async () => {
-            try {
-                const data = await getDanhSachDichVu();
-                setDichVu(data);
-            } catch (error) {
-                console.error("Lỗi khi lấy ảnh phòng:", error);
-            }
-        };
-        fetchDichVu();
-
-    }, []);
 
     const chuyenDenTrangChiTietDichVu = (idDichVu: number) => {
         navigate(`/chiTietDichVu/${idDichVu}`);
@@ -46,43 +29,43 @@ export default function DanhSachDichVuPage() {
                 {/* list */}
                 <div >
                     <div className="row">
-                        {dichVu.map((dichVu, index) => (
-                            <div className="col-md-4 mb-4" key={index}>
-                                <div className="card h-100 shadow-sm">
-                                    <div className="position-relative">
-                                        <img
-                                            src={`http://localhost:8080/${dichVu.imageUrl}`}
-                                            className="card-img-top" style={{
-                                                width: "80%",
-                                                height: "80%",
-                                                objectFit: "cover",
-                                                borderRadius: "10px",
-                                            }}
-                                            alt=""
-                                        />
-                                        {/* ={anhPhong[0]?.duLieuAnh || ""}   */}
-                                        <span className="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded">
-                                            Mới
-                                        </span>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="card-title">{dichVu.tenDichVu}</h5>
-                                        <p className="card-text text-secondary">{dichVu.moTa}</p>
 
-                                        <div className="d-flex justify-content-between align-items-center mt-3">
-                                            <span className="fw-bold fs-5 text-danger">{FormatCurrency(dichVu.giaDichVu)} VND</span>
+                        <div className="col-md-4 mb-4" >
+                            <div className="card h-100 shadow-sm">
+                                <div className="position-relative">
+                                    <img
+                                        src=""
+                                        className="card-img-top" style={{
+                                            width: "80%",
+                                            height: "80%",
+                                            objectFit: "cover",
+                                            borderRadius: "10px",
+                                        }}
+                                        alt=""
+                                    />
+                                    {/* ={anhPhong[0]?.duLieuAnh || ""}   */}
+                                    <span className="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded">
+                                        Mới
+                                    </span>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title">"tên dịch vụ"</h5>
+                                    <p className="card-text text-secondary">"mô tả"</p>
 
-                                            <button
-                                                className="btn btn-primary"
-                                                onClick={() => chuyenDenTrangChiTietDichVu(dichVu.idDichVu)}
-                                            >
-                                                Xem chỗ trống
-                                            </button>
-                                        </div>
+                                    <div className="d-flex justify-content-between align-items-center mt-3">
+                                        <span className="fw-bold fs-5 text-danger">"giá" VND</span>
+
+                                        <button
+                                            className="btn btn-primary"
+                                        // onClick={() => chuyenDenTrangChiTietDichVu(dichVu.idDichVu)} truyền id vào đây để đi tới trang chi tiết dịch vụ
+                                        >
+                                            Xem chỗ trống
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
                     </div>
                 </div>
 

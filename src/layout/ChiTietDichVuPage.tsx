@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Footer from "./header-footer/Footer";
 import Header from "./header-footer/Header";
 import { DichVuModel } from "../models/DichVu";
-import { getDichVuById } from "../api/DanhSachDichVu";
+
 import { MyJwtPayload } from "../models/MyJwtPayload";
 import { jwtDecode } from "jwt-decode";
 import { datDichVuThanhToanKhiNhanHang } from "../api/ThanhToan";
@@ -20,19 +20,7 @@ const ChiTietDichVuPage = () => {
     const [dangTaiDuLieu, setDangTaiDuLieu] = useState<boolean>(true);
     const [loi, setLoi] = useState<string>("");
 
-    useEffect(() => {
-        const fetchRooms = async () => {
-            try {
-                const data = await getDichVuById(idDichVuNumber);
-                setDichVu(data);
-                setDangTaiDuLieu(false);
-            } catch (error) {
-                console.error("Lỗi khi lấy ảnh phòng:", error);
-            }
-        };
-        fetchRooms();
-    }, []);
-
+    // làm thêm gọi api chi tiết dịch vụ ở đây nghe tài
 
     if (dangTaiDuLieu) {
         return (
@@ -77,31 +65,10 @@ const ChiTietDichVuPage = () => {
         );
     }
 
+
+    // đặt dịch vụ
     const handleDatDichVu = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert("Vui lòng đăng nhập");
-                return;
-            }
-            const userData: MyJwtPayload = jwtDecode(token);
-            console.log("ID Tài khoản:", userData.idTaiKhoan);
 
-            if (!dichVu) {
-                alert("Không có thông tin phòng để đặt dịch vụ!");
-                return;
-            }
-
-            const result = await datDichVuThanhToanKhiNhanHang(dichVu, userData.idTaiKhoan);
-            console.log("Kết quả đặt dịch vụ:", result);
-            if (result) {
-                alert("đặt dịch vụ thành công");
-            }
-
-        } catch (error) {
-            console.error("Lỗi:", error);
-            alert("Thanh toán không thành công!");
-        }
     };
 
 
