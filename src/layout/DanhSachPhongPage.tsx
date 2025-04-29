@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PhongModel } from "../models/PhongModel";
-import { HinhAnhModel } from "../models/HinhAnh";
-import { lay1AnhPhong } from "../api/AnhPhogAPI";
 import { layAllPhong } from "../api/PhongAPI";
 import Footer from "./header-footer/Footer";
 import Header from "./header-footer/Header";

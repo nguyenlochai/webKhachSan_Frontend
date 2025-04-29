@@ -8,18 +8,14 @@ import { PhieuThuePhongModel } from '../../models/PhieuThuePhongModel';
 import { FormatCurrency } from '../../models/FormatCurrency';
 import { PhieuThueDichVuModel } from '../../models/PhieuThueDichVuModel';
 
+
 export default function LichSu() {
+
     // Mock data cho lịch sử đặt phòng
     const [bookings, setBookings] = useState<PhieuThuePhongModel[]>([]);
 
     // Mock data cho lịch sử đặt dịch vụ
     const [services, setServices] = useState<PhieuThueDichVuModel[]>([]);
-
-
-
-
-
-
 
     // lịch sử phòng
     useEffect(() => {
@@ -41,7 +37,6 @@ export default function LichSu() {
         };
         fetchLichSuPhong();
     }, []);
-
 
     // lịch sử dịch vụ
     useEffect(() => {
